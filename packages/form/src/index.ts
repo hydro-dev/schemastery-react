@@ -1,6 +1,6 @@
-import schemaForm from './schema';
+import SchemaForm from './schema';
 
 export * from './assets';
 export * from './utils';
 
-export default schemaForm;
+export { SchemaForm };

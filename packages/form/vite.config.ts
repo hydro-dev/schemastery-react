@@ -13,22 +13,22 @@ export default defineConfig({
     // eslintPlugin(),
     dts({
       insertTypesEntry: true,
-  })],
+    })],
   build: {
     lib: {
-        entry: path.resolve(__dirname, 'src/index.ts'),
-        name: 'SchemasteryReact',
-        formats: ['es', 'umd'],
-        fileName: (format) => `schemastery-react.${format}.js`,
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'SchemasteryReact',
+      formats: ['es', 'umd'],
+      fileName: (format) => `schemastery-react.${format}.js`,
     },
     rollupOptions: {
-        external: ['react', 'react-dom'],
-        output: {
-            globals: {
-                react: 'React',
-                'react-dom': 'ReactDOM',
-            },
+      external: ['react', 'react-dom'],
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
+      },
     },
-},
+  },
 });

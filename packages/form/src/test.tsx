@@ -2,7 +2,7 @@ import 'virtual:windi.css';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import SchemaForm, { Schema } from './index';
+import { SchemaForm, Schema } from './index';
 
 const container = document.getElementById('root');
 const root = createRoot(container as HTMLDivElement);

@@ -81,7 +81,6 @@ export default function SchemaGroup({
           (
             <>
               <SchemaItem
-                onCommand={handleCommand}
                 invaild={entries.filter((e) => e[0] === key).length > 1}
                 Header={
                   schema.type === 'array'

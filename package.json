@@ -1,0 +1,9 @@
+{
+  "name": "schemastery-react-workspace",
+  "packageManager": "yarn@3.2.2",
+  "private": true,
+  "workspaces": [
+    "docs",
+    "packages/*"
+  ]
+}

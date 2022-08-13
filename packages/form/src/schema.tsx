@@ -83,7 +83,7 @@ export default function SchemaForm({
     updateActive(schema);
     for (const item of choices) {
       try {
-        updateConfig(optional(item));
+        updateConfig(optional(item)(config));
         updateActive(item);
         break;
       } catch { }
@@ -131,17 +131,25 @@ export default function SchemaForm({
   }
   if (schema.type === 'intersect' || (schema.type === 'union' && choices.length === 1)) {
     return (
-      <SchemaForm
-        value={config}
-        initial={initial}
-        schema={active}
-        instant={instant}
-        disabled={disabled}
-        prefix={prefix}
-        onChange={(val) => updateConfig(val)}
-      >
-        {children}
-      </SchemaForm>
+      <>
+        {choices.map((item) => (
+          <SchemaForm
+            value={config}
+            initial={initial}
+            schema={{ ...item, meta: { ...schema.meta, ...item.meta } } as Schema}
+            instant={instant}
+            disabled={disabled}
+            prefix={prefix}
+            onChange={(val) => {
+              console.log(val);
+              updateConfig({ ...config, ...val });
+            }}
+          >
+            {children}
+          </SchemaForm>
+        ),
+        )}
+      </>
     );
   }
   if (prefix || (!isComposite && schema?.type !== 'union')) {

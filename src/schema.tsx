@@ -131,18 +131,16 @@ export default function SchemaForm({
   if (schema.type === 'intersect' || (schema.type === 'union' && choices.length === 1)) {
     return (
       <>
-        {choices.map((item) => (
+        {choices.map((item, index) => (
           <SchemaForm
+            key={`${prefix}${index}`}
             value={config}
             initial={initial}
             schema={{ ...item, meta: { ...schema.meta, ...item.meta } } as Schema}
             instant={instant}
             disabled={disabled}
             prefix={prefix}
-            onChange={(val) => {
-              console.log(val);
-              updateConfig({ ...config, ...val });
-            }}
+            onChange={(val) => updateConfig({ ...config, ...val })}
           >
             {children}
           </SchemaForm>
@@ -164,7 +162,6 @@ export default function SchemaForm({
           <>
             {schema.type === 'union' && schema.meta.role !== 'radio' && (
               <select
-                value={active !== schema ? active.meta.description || active.value : null}
                 onChange={(e) => {
                   if (active === choices[+e.target.value]) return;
                   updateConfig(cache[+e.target.value]);
@@ -172,7 +169,15 @@ export default function SchemaForm({
                 }}
               >
                 {choices.map((item, index) =>
-                  (<option key={item.meta.description || item.value} value={index}>{item.meta.description || item.value}</option>),
+                  (
+                    <option
+                      key={item.meta?.description || item.value}
+                      value={index}
+                      selected={(active !== schema ? active.meta.description || active.value : null) === (item.meta.description || item.value)}
+                    >
+                      {item.meta.description || item.value}
+                    </option>
+                  ),
                 )}
               </select>
             )}
@@ -216,7 +221,7 @@ export default function SchemaForm({
           </ul>
         ) : schema.type === 'string' && schema.meta.role === 'textarea' && (
           <textarea
-            className="textbot"
+            className="textbox"
             value={config || ''}
             disabled={disabled}
             onChange={(e) => updateConfig(e.target.value)}

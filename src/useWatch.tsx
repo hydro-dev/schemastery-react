@@ -19,12 +19,8 @@ export default function useWatch<T>(dep: T, callback: Callback<T>, config: Confi
     if (!stop.current) {
       if (!inited.current) {
         inited.current = true;
-        if (immediate) {
-          execute();
-        }
-      } else {
-        execute();
-      }
+        if (immediate) execute();
+      } else execute();
       prev.current = dep;
     }
   }, [config.deep ? JSON.stringify(dep) : dep]);

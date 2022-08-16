@@ -100,7 +100,6 @@ export default function SchemaGroup({
                 Description={
                   <SchemaMarkDown inline source={schema.inner.meta.description} />
                 }
-              /* Menu */
               />
               <div className="k-schema-group">
                 <SchemaForm
@@ -109,9 +108,7 @@ export default function SchemaGroup({
                   schema={{ ...schema.inner, meta: { ...schema.inner.meta, description: '' } } as Schema}
                   disabled={disabled}
                   instant={instant}
-                  onChange={(val) => {
-                    entries[key][1] = val;
-                  }}
+                  onChange={(val) => { entries[key][1] = val; }}
                   prefix={schema.type === 'array' ? `${prefix.slice(0, -1)}[${key}].` : `${prefix}${key}.`}
                 >
                   <span className="prefix">{prefix}</span>

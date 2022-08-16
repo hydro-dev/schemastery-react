@@ -16,18 +16,19 @@ export default function SchemaPrimitive({
     return (
       <input
         type="checkbox"
+        className="checkbox"
         checked={value || false}
         disabled={disabled}
-        onChange={(e) => {
-          onChange(e.target.checked);
-        }}
+        onChange={(e) => { onChange(e.target.checked); }}
       />
     );
-  } if (schema.type === 'number') {
+  }
+  if (schema.type === 'number') {
     if (schema.meta.role === 'slider') {
       return (
         <input
           type="range"
+          className="range"
           min={schema.meta.min}
           max={schema.meta.max}
           step={schema.meta.step}
@@ -38,9 +39,11 @@ export default function SchemaPrimitive({
           }}
         />
       );
-    } return (
+    }
+    return (
       <input
         type="number"
+        className="textbox"
         value={value || ''}
         disabled={disabled}
         step={schema.meta.step}
@@ -61,7 +64,8 @@ export default function SchemaPrimitive({
         }}
       />
     );
-  } if (schema.meta.role === 'date') {
+  }
+  if (schema.meta.role === 'date') {
     return (
       <input
         type="date"
@@ -72,7 +76,8 @@ export default function SchemaPrimitive({
         }}
       />
     );
-  } if (schema.meta.role === 'datetime') {
+  }
+  if (schema.meta.role === 'datetime') {
     return (
       <input
         type="datetime-local"
@@ -83,10 +88,12 @@ export default function SchemaPrimitive({
         }}
       />
     );
-  } if (schema.meta.role === 'secret') {
+  }
+  if (schema.meta.role === 'secret') {
     return (
       <input
         type="password"
+        className="textbox"
         value={value || ''}
         disabled={disabled}
         onChange={(e) => {
@@ -94,10 +101,12 @@ export default function SchemaPrimitive({
         }}
       />
     );
-  } if (['url', 'link'].includes(schema.meta.role || '')) {
+  }
+  if (['url', 'link'].includes(schema.meta.role || '')) {
     return (
       <input
         type="url"
+        className="textbox"
         value={value || ''}
         disabled={disabled}
         onChange={(e) => {
@@ -105,11 +114,13 @@ export default function SchemaPrimitive({
         }}
       />
     );
-  } return (
+  }
+  return (
     <>
       {Prefix && isNullable(value) && <Prefix />}
       <input
         type="text"
+        className="textbox"
         value={value || ''}
         disabled={disabled}
         onChange={(e) => {

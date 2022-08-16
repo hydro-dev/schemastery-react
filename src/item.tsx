@@ -8,21 +8,15 @@ export default function SchemaItem({
   Right?: any; children?: any; invaild?: Boolean;
 }) {
   return (
-    <div className={`schema-item${invaild ? ' invaild' : ''}`}>
+    <div className={`schema-item${invaild ? ' invaild' : ''} `/* todo: container type */}>
       {Actions && !disabled && (Actions)}
-      <div className="header">
-        <div className="left">
-          <h3>
-            {Header && (Header)}
-            { /* TODO: DROPDOWN */}
-          </h3>
-          {Description && (Description)}
-        </div>
-        <div className="right">
-          {Right && (Right)}
-        </div>
-      </div>
-      {children}
+      <label>
+        <h3>{Header}</h3>
+        { /* TODO: DROPDOWN */}
+        {Description}
+        {Right}
+        {children}
+      </label>
     </div>
   );
 }

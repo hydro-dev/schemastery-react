@@ -157,23 +157,25 @@ export default function SchemaForm({
         disabled={disabled}
         Header={children}
         Description={
-          <SchemaMarkDown inline source={schema?.meta?.description || ''} />
+          schema?.meta?.description
+            ? <SchemaMarkDown inline source={schema?.meta?.description || ''} />
+            : null
         }
         Right={(
           <>
             {schema.type === 'union' && schema.meta.role !== 'radio' && (
-            <select
-              value={active !== schema ? active.meta.description || active.value : null}
-              onChange={(e) => {
-                if (active === choices[+e.target.value]) return;
-                updateConfig(cache[+e.target.value]);
-                updateActive(choices[+e.target.value]);
-              }}
-            >
-              {choices.map((item, index) =>
-                (<option key={item.meta.description || item.value} value={index}>{item.meta.description || item.value}</option>),
-              )}
-            </select>
+              <select
+                value={active !== schema ? active.meta.description || active.value : null}
+                onChange={(e) => {
+                  if (active === choices[+e.target.value]) return;
+                  updateConfig(cache[+e.target.value]);
+                  updateActive(choices[+e.target.value]);
+                }}
+              >
+                {choices.map((item, index) =>
+                  (<option key={item.meta.description || item.value} value={index}>{item.meta.description || item.value}</option>),
+                )}
+              </select>
             )}
             {isPrimitive ? <SchemaPrimitive value={config} schema={active} disabled={disabled} onChange={(e) => updateConfig(e)} />
               : isComposite ? <button type="button" onClick={() => updateSignal(true)} disabled={disabled}>添加项</button>
@@ -183,11 +185,18 @@ export default function SchemaForm({
           </>
         )}
       >
-        {schema.type === 'union' && schema.meta.role === 'radio' ? (
+        {(schema.type === 'union' && schema.meta.role === 'radio') ? (
           <ul className="bottom">
             {choices.map((item) => (
               <li key={item.value}>
-                <input type="radio" name="config" value={item.value} checked={config === item.value} onChange={() => updateConfig(item.value)} />
+                <input
+                  type="radio"
+                  className="radiobox"
+                  name="config"
+                  value={item.value}
+                  checked={config === item.value}
+                  onChange={() => updateConfig(item.value)}
+                />
                 {item.meta.description || item.value}
               </li>
             ))}
@@ -196,13 +205,24 @@ export default function SchemaForm({
           <ul className="bottom">
             {Object.keys(schema.bits).map((val) => (
               <li key={val}>
-                <BitCheckBox model={config} disabled={disabled} label={val} value={schema.bits[val]} onChange={(e) => updateConfig(e)} />
+                <BitCheckBox
+                  model={config}
+                  disabled={disabled}
+                  label={val}
+                  value={schema.bits[val]}
+                  onChange={(e) => updateConfig(e)}
+                />
               </li>
-            ),
-            )}
+            ))}
           </ul>
-        ) : schema.type === 'string' && schema.meta.role === 'textarea'
-        && <textarea className="w-full" value={config || ''} disabled={disabled} onChange={(e) => updateConfig(e.target.value)} />}
+        ) : schema.type === 'string' && schema.meta.role === 'textarea' && (
+          <textarea
+            className="textbot"
+            value={config || ''}
+            disabled={disabled}
+            onChange={(e) => updateConfig(e.target.value)}
+          />
+        )}
       </SchemaItem>
     );
   }
@@ -222,14 +242,11 @@ export default function SchemaForm({
         onChange={(val) => updateConfig(val)}
       />
     );
-    if (prefix) {
-      return (
-        <div className="k-schema-group">
-          {schemaGroup}
-        </div>
-      );
-    }
-    return (
+    return prefix ? (
+      <div className="k-schema-group">
+        {schemaGroup}
+      </div>
+    ) : (
       <>
         <h2 className="k-schema-header">
           {schema.meta.description || '配置列表'}

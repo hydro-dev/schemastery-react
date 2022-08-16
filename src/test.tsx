@@ -41,6 +41,31 @@ const testSchema = Schema.object({
       bar: Schema.number(),
     }).description('object'),
   ]),
+  FileSetting: Schema.intersect([
+    Schema.object({
+      type: Schema.union([
+        Schema.const('file').description('local file provider').required(),
+        Schema.const('s3').description('s3 provider').required(),
+      ] as const).required().description('provider type'),
+    }).description('setting_file'),
+    Schema.union([
+      Schema.object({
+        type: Schema.const('file').required(),
+        path: Schema.string().default('/data/file/hydro').description('Storage path').required(),
+      }),
+      Schema.object({
+        type: Schema.const('s3').required(),
+        endPoint: Schema.string().required(),
+        accessKey: Schema.string().required().description('access key'),
+        secretKey: Schema.string().required().description('secret key').role('secret'),
+        bucket: Schema.string().default('hydro').required(),
+        region: Schema.string().default('us-east-1').required(),
+        pathStyle: Schema.boolean().default(true).required(),
+        endPointForUser: Schema.string().default('/fs/').required(),
+        endPointForJudge: Schema.string().default('/fs/').required(),
+      }),
+    ] as const),
+  ] as const).description('File Setting'),
 }).description('test_form');
 
 function Test() {
@@ -49,7 +74,11 @@ function Test() {
   const schema = testSchema;
 
   useEffect(() => {
-    updateOutput(schema(input));
+    try {
+      updateOutput(schema(input));
+    } catch (e) {
+      updateOutput({ message: 'invalid input' });
+    }
   }, [input]);
   return (
     <div>

@@ -1,22 +1,23 @@
 .schema-item h3 {
-    input {
-      display: inline;
-      width: auto;
-      border: none;
-      padding: 0;
-      font-size: 1.125rem;
-      font-weight: inherit;
-      font-family: inherit;
-      border-radius: 0;
-    }
+  input {
+    display: inline;
+    width: auto;
+    border: none;
+    padding: 0;
+    font-size: 1.125rem;
+    font-weight: inherit;
+    font-family: inherit;
+    border-radius: 0;
+  }
 }
 
-.k-schema-group + h2 {
+.k-schema-group+h2 {
   margin-top: 2rem;
 }
 
 .k-markdown {
-  a, code a {
+  a,
+  code a {
     color: var(--active);
 
     &:hover {
@@ -40,10 +41,12 @@
       color: var(--fg3);
       transition: var(--color-transition);
       cursor: pointer;
+
       &:hover {
         color: var(--fg1);
       }
     }
+
     &.nullable:not(:focus-within) .el-input__prefix {
       display: block;
       position: absolute;
@@ -53,6 +56,7 @@
       transition: var(--color-transition);
     }
   }
+
   .el-switch.nullable {
     .el-switch__action {
       left: 11px;
@@ -66,11 +70,12 @@
   border-bottom: 1px solid var(--el-border-color);
   transition: var(--color-transition);
 
-  &:first-child, :not(.schema-item):not(.k-schema-group) + & {
+  &:first-child,
+  :not(.schema-item):not(.k-schema-group)+& {
     border-top: 1px solid var(--el-border-color);
   }
 
-  & + h2 {
+  &+h2 {
     margin-top: 2rem;
   }
 

@@ -9,17 +9,17 @@ export default function SchemaItem({
 }) {
   return (
     <div className={`schema-item${invaild ? ' invaild' : ''}`}>
-      { Actions && !disabled && (Actions) }
+      {Actions && !disabled && (Actions)}
       <div className="header">
         <div className="left">
           <h3>
-            { Header && (Header) }
-            { /* TODO: DROPDOWN */ }
+            {Header && (Header)}
+            { /* TODO: DROPDOWN */}
           </h3>
-          { Description && (Description) }
+          {Description && (Description)}
         </div>
         <div className="right">
-          {Right && (Right) }
+          {Right && (Right)}
         </div>
       </div>
       {children}

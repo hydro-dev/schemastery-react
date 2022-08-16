@@ -1,4 +1,3 @@
-import 'virtual:windi.css';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -45,10 +44,6 @@ const testSchema = Schema.object({
 }).description('test_form');
 
 function Test() {
-  /*
-    value: Schema.date(),
-
-  */
   const [input, updateInput] = useState({});
   const [output, updateOutput] = useState({});
   const schema = testSchema;
@@ -57,8 +52,7 @@ function Test() {
     updateOutput(schema(input));
   }, [input]);
   return (
-    <div className="w-9/12 h-9/12 test-box">
-      <h2 className="text-center text-xl">Schemastery-React Test</h2>
+    <div>
       <SchemaForm schema={schema} onChange={(e) => updateInput(e)} />
       <h2>Input</h2>
       <p>{JSON.stringify(input)}</p>

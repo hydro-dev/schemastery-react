@@ -7,7 +7,6 @@ import SchemaMarkDown from './markdown';
 import BitCheckBox from './bit';
 import './assets/schema.scss';
 import './assets/form.css';
-import 'virtual:windi.css';
 import {
   deepEqual, getChoices, getFallback, Schema, validate,
 } from './utils';

@@ -10,7 +10,7 @@ export default function SchemaItem({
   return (
     <div className={`schema-item${invaild ? ' invaild' : ''} `/* todo: container type */}>
       {Actions && !disabled && (Actions)}
-      <label>
+      <label htmlFor="schema-item">
         <h3>{Header}</h3>
         { /* TODO: DROPDOWN */}
         {Description}

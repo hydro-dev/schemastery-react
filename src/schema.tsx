@@ -6,7 +6,6 @@ import SchemaPrimitive from './primitive';
 import SchemaMarkDown from './markdown';
 import BitCheckBox from './bit';
 import './assets/schema.scss';
-import './assets/form.css';
 import {
   deepEqual, getChoices, getFallback, Schema, validate,
 } from './utils';
@@ -14,7 +13,7 @@ import {
 function optional(schema: Schema): Schema {
   if (schema.type === 'object') {
     return Schema.object(
-      valueMap(schema.dict!, (item) => (item.type === 'const' ? item : item.required(false))),
+      valueMap(schema.dict, (item) => (item.type === 'const' ? item : item.required(false))),
     );
   }
   if (schema.type === 'intersect') {
@@ -51,6 +50,7 @@ export default function SchemaForm({
   const isComposite = ['array', 'dict'].includes(active.type) && validate(active.inner);
   const [config, updateConfig] = useState<any>(['string', 'number', 'boolean', 'bitset', 'union'].includes(active.type) ? null : {});
   const [signal, updateSignal] = useState(false);
+  const [selected, updateSelected] = useState<any>(active !== schema ? active.meta.description || active.value : null);
   const changed = !instant && !deepEqual(value, initial);
   const required = schema.meta?.required
     && isNullable(schema.meta.default ?? '')
@@ -133,7 +133,8 @@ export default function SchemaForm({
       <>
         {choices.map((item, index) => (
           <SchemaForm
-            key={`${prefix}${index}`}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             value={config}
             initial={initial}
             schema={{ ...item, meta: { ...schema.meta, ...item.meta } } as Schema}
@@ -162,21 +163,22 @@ export default function SchemaForm({
           <>
             {schema.type === 'union' && schema.meta.role !== 'radio' && (
               <select
+                value={choices.findIndex((item) => (item.meta.description || item.value) === selected)}
                 onChange={(e) => {
                   if (active === choices[+e.target.value]) return;
                   updateConfig(cache[+e.target.value]);
                   updateActive(choices[+e.target.value]);
+                  updateSelected(choices[+e.target.value].meta.description || choices[+e.target.value].value);
                 }}
               >
+                <option value="-1" style={{ display: 'none' }} label="Please Select..." />
                 {choices.map((item, index) =>
                   (
                     <option
                       key={item.meta?.description || item.value}
                       value={index}
-                      selected={(active !== schema ? active.meta.description || active.value : null) === (item.meta.description || item.value)}
-                    >
-                      {item.meta.description || item.value}
-                    </option>
+                      label={item.meta.description || item.value}
+                    />
                   ),
                 )}
               </select>
@@ -271,7 +273,7 @@ export default function SchemaForm({
       <SchemaForm
         value={config}
         initial={initial}
-        schema={active}
+        schema={{ ...active, meta: { ...active.meta } } as Schema}
         instant={instant}
         disabled={disabled}
         prefix={prefix}

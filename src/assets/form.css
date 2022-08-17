@@ -1,5 +1,0 @@
-.test-box {
-    @apply
-      py-8 px-8 mx-auto bg-gray-100
-      rounded-xl shadow-md space-y-2;
-  }

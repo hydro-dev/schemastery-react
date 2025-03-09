@@ -1,30 +1,36 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
+import vue from '@vitejs/plugin-vue';
+import ViteYaml from '@modyfi/vite-plugin-yaml';
 import path from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
-    dts({
-      insertTypesEntry: true,
-    }),
+    vue(),
+    ViteYaml(),
   ],
   build: {
+    minify: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'SchemasteryReact',
-      formats: ['es', 'umd'],
+      formats: ['esm'],
       fileName: (format) => `schemastery-react.${format}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'schemastery'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
         },
+      },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
       },
     },
   },

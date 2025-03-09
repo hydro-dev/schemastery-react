@@ -11,6 +11,7 @@ export default defineConfig({
   ],
   build: {
     minify: true,
+    outDir: path.resolve(__dirname, 'lib'),
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'SchemasteryReact',
